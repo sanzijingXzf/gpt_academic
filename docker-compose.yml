@@ -1,0 +1,33 @@
+version: '3'
+services:
+  gpt_academic:
+    image: binaryhusky/gpt_academic
+    container_name: gpt_academic
+    environment:
+      # [备注] 1. API Key 配置
+      - API_KEY=hellotheworld
+      - CUSTOM_API_KEY_PATTERN=hellotheworld
+
+      # [备注] 2. 模型选择 (核心：必须带 one-api- 前缀以激活重定向)
+      - LLM_MODEL=one-api-gemini-2.5-flash
+      - AVAIL_LLM_MODELS=["one-api-gemini-2.5-flash","gpt-4"]
+
+      # [备注] 3. API 重定向 (指向你的 ClawCloud 代理地址)
+      - API_URL_REDIRECT={"https://api.openai.com/v1/chat/completions":"https://bteijfltbfkr.us-east-1.clawcloudrun.com/v1/chat/completions"}
+
+      # [备注] 4. 网络与监听配置 (核心：0.0.0.0 确保健康检查通过)
+      - LISTEN_IP=0.0.0.0
+      - GRADIO_SERVER_NAME=0.0.0.0
+      - WEB_PORT=3000
+      - USE_PROXY=False
+
+      # [备注] 5. 启动稳定性优化
+      - AUTH_SKIP_WARMUP=True
+      - ADD_WAIFU=True
+
+    # [备注] 6. 端口映射 (容器内外统一使用 3000)
+    ports:
+      - "3000:3000"
+
+    # [备注] 7. 自动重启策略
+    restart: always
