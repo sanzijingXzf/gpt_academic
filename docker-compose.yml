@@ -13,7 +13,7 @@ services:
       - AVAIL_LLM_MODELS=["one-api-gemini-2.5-flash","gpt-4"]
 
       # [备注] 3. API 重定向 (指向你的 ClawCloud 代理地址)
-      - API_URL_REDIRECT={"https://api.openai.com/v1/chat/completions":"https://bteijfltbfkr.us-east-1.clawcloudrun.com/v1/chat/completions"}
+      - API_URL_REDIRECT={"https://api.openai.com/v1/chat/completions":"自定义ip/v1/chat/completions"}
 
       # [备注] 4. 网络与监听配置 (核心：0.0.0.0 确保健康检查通过)
       - LISTEN_IP=0.0.0.0
