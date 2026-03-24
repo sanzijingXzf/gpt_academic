@@ -1,8 +1,9 @@
 version: '3'
 services:
   gpt_academic:
-    image: binaryhusky/gpt_academic
-    container_name: gpt_academic_local
+    #image: ghcr.io/binary-husky/gpt_academic_nolocal:master
+    build.
+    container_name: gpt_academic
     environment:
       # [备注] 1. API Key 配置
       - API_KEY=hellotheworld
