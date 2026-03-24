@@ -2,32 +2,38 @@ version: '3'
 services:
   gpt_academic:
     image: binaryhusky/gpt_academic
-    container_name: gpt_academic
+    container_name: gpt_academic_local
     environment:
       # [备注] 1. API Key 配置
       - API_KEY=hellotheworld
       - CUSTOM_API_KEY_PATTERN=hellotheworld
 
-      # [备注] 2. 模型选择 (核心：必须带 one-api- 前缀以激活重定向)
+      # [备注] 2. 模型选择 (核心：one-api- 前缀激活重定向)
       - LLM_MODEL=one-api-gemini-2.5-flash
       - AVAIL_LLM_MODELS=["one-api-gemini-2.5-flash","gpt-4"]
 
-      # [备注] 3. API 重定向 (指向你的 ClawCloud 代理地址)
+      # [备注] 3. API 重定向 (指向您的代理地址)
       - API_URL_REDIRECT={"https://api.openai.com/v1/chat/completions":"自定义ip/v1/chat/completions"}
 
-      # [备注] 4. 网络与监听配置 (核心：0.0.0.0 确保健康检查通过)
+      # [备注] 4. 网络配置
+      # 本地部署建议使用 22303 端口，LISTEN_IP 设为 0.0.0.0 方便局域网访问
       - LISTEN_IP=0.0.0.0
-      - GRADIO_SERVER_NAME=0.0.0.0
-      - WEB_PORT=3000
+      - WEB_PORT=22303
       - USE_PROXY=False
 
-      # [备注] 5. 启动稳定性优化
+      # [备注] 5. 稳定性与功能
       - AUTH_SKIP_WARMUP=True
       - ADD_WAIFU=True
 
-    # [备注] 6. 端口映射 (容器内外统一使用 3000)
+    # [备注] 6. 端口映射
+    # 将容器内的 22303 端口映射到您电脑的 22303 端口
     ports:
-      - "3000:3000"
+      - "22303:22303"
 
-    # [备注] 7. 自动重启策略
-    restart: always
+    # [备注] 7. 路径挂载 (非常重要)
+    # 这样您的对话日志会保存在本地的 gpt_log 文件夹中，容器删了记录还在
+    volumes:
+      - ./gpt_log:/gpt/gpt_log
+
+    # [备注] 8. 自动重启
+    restart: unless-stopped
