@@ -1,4 +1,4 @@
-version: '3'
+#基于原项目修改配置适应于通用大模型配置
 services:
   gpt_academic:
     build: .
